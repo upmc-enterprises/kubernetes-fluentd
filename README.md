@@ -59,6 +59,18 @@ The pod running as the daemonset requires permissions to access the S3 bucket de
 }
 ```
 
+# Deploy ELK Stack
+
+For a simple ELK stack to get started, deploy the following:
+
+```
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kubernetes/master/cluster/addons/fluentd-elasticsearch/es-controller.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/kubernetes/master/cluster/addons/fluentd-elasticsearch/es-service.yaml
+kubectl create -f https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/fluentd-elasticsearch/kibana-controller.yaml
+kubectl create -f https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/fluentd-elasticsearch/kibana-service.yaml
+```
+_Source: https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch_
+
 # About
 
 Built by UPMC Enterprises in Pittsburgh, PA. http://enterprises.upmc.com/
