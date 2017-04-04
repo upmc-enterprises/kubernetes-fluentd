@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: kube-system
+data:
+  AWS_S3_BUCKET_NAME: sloka-fluentd-logs
+  AWS_S3_LOGS_BUCKET_PREFIX: k8s-logs/logs/
+  AWS_S3_LOGS_BUCKET_REGION: us-east-1
+  ELASTICSEARCH_HOST: elasticsearch-logging
+  ELASTICSEARCH_PORT: "9200"
