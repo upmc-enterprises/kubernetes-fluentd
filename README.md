@@ -17,6 +17,7 @@ Configmap Parameters:
 
 #### Create the configmap + daemonset:
 ```
+kubectl create configmap fluentd --from-file=fluent.conf -n kube-system
 kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/fluentd-configmap.yaml
 kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/fluentd.yaml
 ```
