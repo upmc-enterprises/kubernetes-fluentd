@@ -29,28 +29,18 @@ spec:
         - name: AWS_S3_BUCKET_NAME
           valueFrom:
             configMapKeyRef:
-              name: fluentd-config
+              name: fluentd-conf
               key: AWS_S3_BUCKET_NAME
         - name: AWS_S3_LOGS_BUCKET_PREFIX
           valueFrom:
             configMapKeyRef:
-              name: fluentd-config
+              name: fluentd-conf
               key: AWS_S3_LOGS_BUCKET_PREFIX
         - name: AWS_S3_LOGS_BUCKET_REGION
           valueFrom:
             configMapKeyRef:
-              name: fluentd-config
+              name: fluentd-conf
               key: AWS_S3_LOGS_BUCKET_REGION
-        - name: ELASTICSEARCH_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: fluentd-config
-              key: ELASTICSEARCH_HOST
-        - name: ELASTICSEARCH_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: fluentd-config
-              key: ELASTICSEARCH_PORT
         args:
         - --use-v1-config
         - -qq
@@ -62,7 +52,7 @@ spec:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
           readOnly: true
-        - name: fluentd-config
+        - name: fluentd-conf-volume
           mountPath: /fluentd/etc
       terminationGracePeriodSeconds: 30
       volumes:
@@ -72,6 +62,12 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
-      - name: fluentd-config
+      - name: fluentd-conf
         configMap:
-          name: fluentd
+          name: fluentd-conf
+      - name: fluentd-conf-volume
+        configMap:
+          name: fluentd-conf
+          items:
+          - key: fluent_s3.conf
+            path: fluent.conf

@@ -8,57 +8,41 @@ Currently the sample container has both the S3 plugin as well as the Elasticsear
 
 Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet requires a ConfigMap to pass parameters to the DaemonSet. 
 
-Configmap Parameters:
-- AWS_S3_BUCKET_NAME: {YOUR_BUCKET}
-- AWS_S3_LOGS_BUCKET_PREFIX: fluentd-logs
-- AWS_S3_LOGS_BUCKET_REGION: us-east-1
-- ELASTICSEARCH_HOST: elasticsearch-logging
-- ELASTICSEARCH_PORT: "9200"
+1. Create bucket in S3 changing the value of 'steve_bucket' to your unique bucket name:
+    ```
+    $ aws s3api create-bucket --bucket steve_bucket --region us-east-1
+    ```
 
-#### Create the configmap + daemonset:
-```
-kubectl create configmap fluentd --from-file=fluent_s3.conf -n kube-system
-kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/fluentd-configmap.yaml
-kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/fluentd.yaml
-```
+2. Edit the file 's3_iam_role.json' and update the value '{YOUR_BUCKET}' with the value of the bucket created in the previous step. In the following example my bucket name is 'steve_bucket':
+    ```
+    $ sed 's/{YOUR_BUCKET}/steve_bucket/g' s3_iam_role.json > s3_iam_role_complete.json
+    ```
 
-## AWS Setup (If using S3)
+3. Create an IAM policy to allow access to the S3 bucket:
+    ```
+    $ aws iam create-policy --policy-name kubernetes-fluentd-s3-logging --policy-document file://s3_iam_role_complete.json
+    ```
 
-The pod running as the daemonset requires permissions to access the S3 bucket defined in the configmap. Configure an IAM role for your EC2 instances with a proper policy. 
+4. Attach the policy to the IAM Role for the Kubernetes workers:
+    ```
+    # Find RoleName for the worker role
+    $ aws iam list-roles | grep -i iamroleworker
+    
+    # Attach policy
+    $ aws iam attach-role-policy --policy-arn <ARN_of_policy_created_in_previous_step> --role-name <RoleName>
+    Create the ConfigMap specifying the correct values for your environment:
+    $ kubectl create configmap fluentd-conf --from-literal=AWS_S3_BUCKET_NAME=<!YOUR_BUCKET_NAME!> --from-literal=AWS_S3_LOGS_BUCKET_PREFIX=<!YOUR_BUCKET_PREFIX!> --from-literal=AWS_S3_LOGS_BUCKET_REGION=<!YOUR_BUCKET_REGION!> --from-file=fluent_s3.conf -n kube-system
+    ```
 
-### Example Policy:
-```json
-{
-    "Statement": [
-        {
-            "Action": [
-                "s3:ListBucket",
-                "s3:GetBucketLocation",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListBucketVersions"
-            ],
-            "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::{YOUR_BUCKET}"
-            ]
-        },
-        {
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject",
-                "s3:AbortMultipartUpload",
-                "s3:ListMultipartUploadParts"
-            ],
-            "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::{YOUR_BUCKET}/*"
-            ]
-        }
-    ],
-    "Version": "2012-10-17"
-}
-```
+5. Deploy the daemonset:
+    ```
+    $ kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/fluentd_s3.yaml
+    ```
+
+6.  Verify logs are writing to S3:
+    ```
+    $ aws s3api list-objects --bucket steve_bucket
+    ```
 
 # Deploy ELK Stack
 
