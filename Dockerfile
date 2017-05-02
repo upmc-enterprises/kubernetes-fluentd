@@ -15,6 +15,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
         fluent-plugin-elasticsearch \
         fluent-plugin-s3 \
         fluent-plugin-systemd \
+        fluent-plugin-kubernetes_metadata_filter \
  && sudo -u fluent gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
