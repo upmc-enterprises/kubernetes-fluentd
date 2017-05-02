@@ -1,6 +1,5 @@
 {
-    "Statement": [
-        {
+    "Statement": [{
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation",
@@ -23,6 +22,30 @@
             "Resource": [
                 "arn:aws:s3:::{YOUR_BUCKET}/*"
             ]
+        },
+        {
+            "Sid": "DenyIncorrectEncryptionHeader",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::{YOUR_BUCKET}/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-server-side-encryption": "AES256"
+                }
+            }
+        },
+        {
+            "Sid": "DenyUnEncryptedObjectUploads",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::{YOUR_BUCKET}/*",
+            "Condition": {
+                "Null": {
+                    "s3:x-amz-server-side-encryption": "true"
+                }
+            }
         }
     ],
     "Version": "2012-10-17"
