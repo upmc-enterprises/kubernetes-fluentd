@@ -73,6 +73,3 @@ spec:
       - name: fluentd-conf-volume
         configMap:
           name: fluentd-conf
-          items:
-          - key: fluent_s3.conf
-            path: fluent.conf
