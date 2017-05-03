@@ -31,8 +31,16 @@ Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet r
     # Attach policy
     $ aws iam attach-role-policy --policy-arn <ARN_of_policy_created_in_previous_step> --role-name <RoleName>
     Create the ConfigMap specifying the correct values for your environment:
-    $ kubectl create configmap fluentd-conf --from-literal=AWS_S3_BUCKET_NAME=<!YOUR_BUCKET_NAME!> --from-literal=AWS_S3_LOGS_BUCKET_PREFIX=<!YOUR_BUCKET_PREFIX!> --from-literal=AWS_S3_LOGS_BUCKET_REGION=<!YOUR_BUCKET_REGION!> --from-file=fluent_s3.conf -n kube-system
+    $ kubectl create configmap fluentd-conf --from-literal=AWS_S3_BUCKET_NAME=<!YOUR_BUCKET_NAME!> --from-literal=AWS_S3_LOGS_BUCKET_PREFIX=<!YOUR_BUCKET_PREFIX!>  --from-literal=AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM=<!YOUR_BUCKET_PREFIX!> --from-literal=AWS_S3_LOGS_BUCKET_REGION=<!YOUR_BUCKET_REGION!> --from-file=fluent_s3.conf -n kube-system
     ```
+    
+    | Variable      | Description
+    | ------------- |-------------| 
+    | AWS_S3_BUCKET_NAME | Name of the S3 bucket 
+    | AWS_S3_LOGS_BUCKET_PREFIX      | The prefix to place the application logs into (e.g. k8s-logs/logs/)  
+    | AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM | The prefix to place the system logs into (e.g. k8s-logs/kubesystem-logs/)
+    | AWS_S3_LOGS_BUCKET_REGION | AWS Region
+
 
 5. Deploy the daemonset:
     ```
