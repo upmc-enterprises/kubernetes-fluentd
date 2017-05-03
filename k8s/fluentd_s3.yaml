@@ -41,6 +41,11 @@ spec:
             configMapKeyRef:
               name: fluentd-conf
               key: AWS_S3_LOGS_BUCKET_REGION
+        - name: AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM
+          valueFrom:
+            configMapKeyRef:
+              name: fluentd-conf
+              key: AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM
         args:
         - --use-v1-config
         - -qq

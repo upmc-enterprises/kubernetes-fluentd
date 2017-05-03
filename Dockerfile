@@ -16,6 +16,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
         fluent-plugin-s3 \
         fluent-plugin-systemd \
         fluent-plugin-kubernetes_metadata_filter \
+        fluent-plugin-rewrite-tag-filter \
  && sudo -u fluent gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
@@ -24,6 +25,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && rm -rf /var/lib/apt/lists/* \
            /home/fluent/.gem/ruby/2.3.0/cache/*.gem
 
-# USER fluent
+# Copy plugins
+COPY plugins /fluentd/plugins/
 
 ENTRYPOINT ["sh", "start.sh"]
