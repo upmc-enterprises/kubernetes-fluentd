@@ -1,4 +1,4 @@
-FROM fluent/fluentd:v0.14-debian
+FROM upmcenterprises/fluentd:v0.14-debian
 MAINTAINER Steve Sloka <slokas@upmc.edu>
 
 COPY /start.sh /home/fluent/start.sh
@@ -17,6 +17,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
         fluent-plugin-systemd \
         fluent-plugin-kubernetes_metadata_filter \
         fluent-plugin-rewrite-tag-filter \
+        fluent-plugin-cloudwatch-logs \
  && sudo -u fluent gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
@@ -27,5 +28,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
 
 # Copy plugins
 COPY plugins /fluentd/plugins/
+
 
 ENTRYPOINT ["sh", "start.sh"]
