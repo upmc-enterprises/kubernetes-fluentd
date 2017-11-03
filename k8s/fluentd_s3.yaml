@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image:  upmcenterprises/fluentd:0.0.2
+        image: upmcenterprises/fluentd:0.0.12
         imagePullPolicy: Always
         resources:
           limits:
@@ -46,9 +46,6 @@ spec:
             configMapKeyRef:
               name: fluentd-conf
               key: AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM
-        args:
-        - --use-v1-config
-        - -qq
         securityContext:
           privileged: true
         volumeMounts:
