@@ -13,7 +13,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev libffi-dev" \
     && gem install \
         ffi \
         fluent-plugin-cloudwatch-logs \
-        fluent-plugin-elasticsearch \
+        fluent-plugin-elasticsearch:1.10.0 \
         fluent-plugin-kubernetes_metadata_filter \
         fluent-plugin-record-reformer \
         fluent-plugin-rewrite-tag-filter:1.5.6 \

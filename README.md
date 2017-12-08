@@ -65,7 +65,15 @@ Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet r
 Help out by documenting me!!!
 
 01. Remove DaemonSet
-02.
+    ```
+    $ kubectl -n kube-system delete -f ./k8s/fluentd_s3.yaml
+    ```
+
+02. Delete ConfigMap
+    ```
+    $ kubectl -n kube-system delete configmap fluentd-conf
+    ```
+
 03.
 04.
 05.
