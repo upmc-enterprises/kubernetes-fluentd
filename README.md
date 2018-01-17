@@ -8,7 +8,7 @@ Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet r
 
 01. Create bucket in S3 changing the value of 'test_bucket' to your unique bucket name:
     ```
-    $ aws s3api create-bucket --profile <My_Profile> --bucket test_bucket --region us-east-1
+    $ aws s3api create-bucket --profile <My_Profile> --region us-east-1 --bucket test_bucket
     ```
 
 02. Edit the file 's3_iam_role.json' and update the value '{YOUR_BUCKET}' with the value of the bucket created in the previous step. In the following example my bucket name is 'test_bucket':
