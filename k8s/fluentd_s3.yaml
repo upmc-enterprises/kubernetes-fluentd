@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: 006828348891.dkr.ecr.us-east-1.amazonaws.com/instrumentation/fluentd:0.0.12
+        image: upmcenterprises/fluentd:0.0.12
         imagePullPolicy: Always
         resources:
           limits:

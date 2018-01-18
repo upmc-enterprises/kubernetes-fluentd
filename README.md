@@ -47,7 +47,7 @@ Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet r
         --from-literal=AWS_S3_LOGS_BUCKET_PREFIX=<YOUR_BUCKET_PREFIX> \
         --from-literal=AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM=<YOUR_BUCKET_PREFIX> \
         --from-literal=AWS_S3_LOGS_BUCKET_REGION=<YOUR_BUCKET_REGION> \
-        --from-file=fluent_s3.conf
+        --from-file=./conf/fluent_s3.conf
     ```
 
 06. Deploy the daemonset:
