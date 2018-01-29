@@ -46,6 +46,16 @@ spec:
             configMapKeyRef:
               name: fluentd-conf
               key: AWS_S3_LOGS_BUCKET_PREFIX_KUBESYSTEM
+        - name: ELASTICSEARCH_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: fluentd-conf
+              key: ELASTICSEARCH_HOST
+        - name: ELASTICSEARCH_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: fluentd-conf
+              key: ELASTICSEARCH_PORT
         securityContext:
           privileged: true
         volumeMounts:
@@ -71,5 +81,5 @@ spec:
         configMap:
           name: fluentd-conf
           items:
-          - key: fluent_s3.conf
+          - key: fluentdes.conf
             path: fluent.conf
