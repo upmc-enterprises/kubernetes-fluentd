@@ -44,7 +44,7 @@ Deployment to a Kubernetes cluster is maintained by a DaemonSet. The DaemonSet r
 
 5. Deploy the daemonset:
     ```
-    $ kubectl create -f https://raw.githubusercontent.com/markyjackson-taulia/kubernetes-fluentd/master/k8s/fluentd_s3.yaml
+    $ kubectl create -f https://raw.githubusercontent.com/upmc-enterprises/kubernetes-fluentd/master/k8s/fluentd_s3.yaml
     ```
 
 6.  Verify logs are writing to S3:
